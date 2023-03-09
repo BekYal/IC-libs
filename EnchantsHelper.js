@@ -17,7 +17,18 @@ var MASK = {
 	ARMOR: 0 | 2 | 8 | 4,
 	WEAPONS: 32 | 16 | 512
 };
+
+Item.createItem("enchanBook", "enchantment book",
+	{data: 0, name: "enchantment_book"},
+	{ stack: 64});
 const Enchants = {
+	addBook: function(enchant, level) {
+		for (let i = 1; i <= level; i++) {
+			let extra = new ItemExtraData();
+			extra.addEnchant(enchant, i);
+			Item.addToCreative(ItemID.enchanBook, 1, 0, extra);
+		}
+	},
 
 	hurtFunction: function(enchant, func, level) {
 		Callback.addCallback('EntityHurt', function(attacker, victim, damageValue, damageType, someBool1, someBool2) {
