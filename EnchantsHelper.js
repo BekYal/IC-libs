@@ -18,7 +18,12 @@ var MASK = {
 	WEAPONS: 32 | 16 | 512
 };
 
+let Curses = [];
+
 const Enchants = {
+	setCurse: function(enchant){
+		Curses.push(enchant);
+	},
 	addBook: function(enchant, level) {
 		for (let i = 1; i <= level; i++) {
 			let extra = new ItemExtraData();
@@ -86,3 +91,5 @@ const Enchants = {
 		});
 	}
 };
+
+
