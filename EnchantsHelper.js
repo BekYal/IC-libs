@@ -17,9 +17,10 @@ var MASK = {
 	ARMOR: 0 | 2 | 8 | 4,
 	WEAPONS: 32 | 16 | 512
 };
-Item.createItem("enchanBook", "enchantment book",
-	{data: 0, name: "enchantment_book"},
-	{ stack: 64});
+
+Item.createItem("enchanBook", "enchantment book", { data: 0, name: "enchantment_book" }, { stack: 64 });
+
+
 const Enchants = {
 	addBook: function(enchant, level) {
 		for (let i = 1; i <= level; i++) {
@@ -28,10 +29,10 @@ const Enchants = {
 			Item.addToCreative(ItemID.enchanBook, 1, 0, extra);
 		}
 	},
-	hurtFunction: function(enchant, func, level) {
+	hurt: function(enchant, func, level) {
 		Callback.addCallback('EntityHurt', function(attacker, victim, damageValue, damageType, someBool1, someBool2) {
 			let item = Entity.getCarriedItem(attacker);
-			if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 1) && damageType == 2) {
+			if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 3) && damageType == 2) {
 				let enchantLevel = item.extra.getEnchantLevel(enchant);
 				func(item, enchantLevel, attacker, victim, damageValue, damageType);
 			}
@@ -40,15 +41,15 @@ const Enchants = {
 	destroyBlock: function(enchant, func, level) {
 		Callback.addCallback('DestroyBlock', function(coords, block, player) {
 			let item = Entity.getCarriedItem(player);
-			if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 1)) {
+			if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 3)) {
 				let enchantLevel = item.extra.getEnchantLevel(enchant);
 				func(item, enchantLevel, coords, block, player);
 			}
 		});
 	},
-	useFunction: function(enchant, func, level) {
+	useItem: function(enchant, func, level) {
 		Callback.addCallback("ItemUse", function(coords, item, block, isExternal, player) {
-			if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 1)) {
+			if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 3)) {
 				let enchantLevel = item.extra.getEnchantLevel(enchant);
 				func(coords, item, block, isExternal, player, enchantLevel);
 			}
@@ -59,7 +60,7 @@ const Enchants = {
 			for (let y = 0; y <= 40; y++) {
 				let actor = new PlayerActor(player);
 				let item = actor.getInventorySlot(y);
-				if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 1)) {
+				if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 3)) {
 					let enchantLevel = item.extra.getEnchantLevel(enchant);
 					func(item, enchantLevel, player);
 				}
@@ -70,25 +71,35 @@ const Enchants = {
 		Callback.addCallback("ServerPlayerTick", function(player) {
 			for (let y = 0; y < 4; y++) {
 				let item = Entity.getArmorSlot(player, y);
-				if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 1)) {
+				if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 3)) {
 					let enchantLevel = item.extra.getEnchantLevel(enchant);
 					func(item, enchantLevel, player);
 				}
 			}
 		});
 	},
+	preventDaamage: function(enchant, level){
+		Callback.addCallback('EntityHurt', function(attacker, victim, damageValue, damageType, someBool1, someBool2) {
+			for (let y = 0; y < 4; y++) {
+				let item = Entity.getArmorSlot(player, y);
+				if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 3)) {
+					Game.prevent();
+				}
+			}
+		});
+	}
 };
 
 let LiveSteal = CustomEnchant.newEnchant("LiveSteal", Translation.translate("LiveSteal"))
 	.setMinMaxLevel(1, 3)
 	.setMask(MASK.AXE)
 	.setFrequency(1);
-	
+
 let LiveSteaw = CustomEnchant.newEnchant("LiveSteaw", Translation.translate("LiveSteaw"))
 	.setMinMaxLevel(1, 3)
 	.setMask(8)
 	.setFrequency(45);
-	
+
 Enchants.addBook(LiveSteaw.id, 3);
 
 Enchants.onNaked(LiveSteaw.id, function(item, enchantLevel, player) {
