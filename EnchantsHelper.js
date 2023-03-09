@@ -1,3 +1,22 @@
+var MASK = {
+	AXE: 512,
+	ALL: 16383,
+	BOW: 32,
+	BOOTS: 4,
+	CHESTPLATE: 8,
+	FISHING_ROD: 4096,
+	FLIND_AND_STEEL: 256,
+	HELMET: 0,
+	HOE: 64,
+	LEGGINS: 2,
+	PICKAXS: 1024,
+	SHEARS: 128,
+	SHOVEL: 2048,
+	WEAPON: 16,
+	TOOL: 512 | 64 | 2048 | 128 | 1024,
+	ARMOR: 0 | 2 | 8 | 4,
+	WEAPONS: 32 | 16 | 512
+};
 const Enchants = {
 
 	hurtFunction: function(enchant, func, level) {
@@ -39,7 +58,7 @@ const Enchants = {
 			}
 		});
 	},
-		onNaked: function(enchant, func, level) {
+	onNaked: function(enchant, func, level) {
 		Callback.addCallback("ServerPlayerTick", function(player) {
 			for (let y = 0; y < 4; y++) {
 				let item = Entity.getArmorSlot(player, y);
@@ -57,10 +76,10 @@ let LiveSteal = CustomEnchant.newEnchant("LiveSteal", Translation.translate("Liv
 	.setMinMaxLevel(1, 3)
 	.setMask(MASKS.axe)
 	.setFrequency(1);
-	
-Enchants.inInv(LiveSteal.id, function(item, enchantLevel, player){
-	if( World.getThreadTime() % 100 == 0 ){
-	Game.message(item.extra + "");
+
+Enchants.inInv(LiveSteal.id, function(item, enchantLevel, player) {
+	if (World.getThreadTime() % 100 == 0) {
+		Game.message(item.extra + "");
 	}
 }, 3);
 
