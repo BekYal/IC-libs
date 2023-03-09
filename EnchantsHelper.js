@@ -18,9 +18,6 @@ var MASK = {
 	WEAPONS: 32 | 16 | 512
 };
 
-Item.createItem("enchanBook", "enchantment book", { data: 0, name: "enchantment_book" }, { stack: 64 });
-
-
 const Enchants = {
 	addBook: function(enchant, level) {
 		for (let i = 1; i <= level; i++) {
@@ -89,39 +86,3 @@ const Enchants = {
 		});
 	}
 };
-
-let LiveSteal = CustomEnchant.newEnchant("LiveSteal", Translation.translate("LiveSteal"))
-	.setMinMaxLevel(1, 3)
-	.setMask(MASK.AXE)
-	.setFrequency(1);
-
-let LiveSteaw = CustomEnchant.newEnchant("LiveSteaw", Translation.translate("LiveSteaw"))
-	.setMinMaxLevel(1, 3)
-	.setMask(8)
-	.setFrequency(45);
-
-Enchants.addBook(LiveSteaw.id, 3);
-
-Enchants.onNaked(LiveSteaw.id, function(item, enchantLevel, player) {
-	if (World.getThreadTime() % 100 == 0) {
-		Game.message(item.extra + "");
-	}
-}, 3);
-
-Enchants.inInv(LiveSteal.id, function(item, enchantLevel, player) {
-	if (World.getThreadTime() % 100 == 0) {
-		Game.message(item.extra + "");
-	}
-}, 3);
-
-Enchants.useFunction(LiveSteal.id, function(coords, item, block, isExternal, player, enchantLevel) {
-	Game.message(item.extra + "");
-}, 3);
-
-Enchants.destroyBlock(LiveSteal.id, function(item, enchantLevel, coords, block, player) {
-	Game.message(item.extra + "");
-}, 3);
-
-Enchants.hurtFunction(LiveSteal.id, function(item, enchantLevel, attacker, victim, damageValue, damageType) {
-	Game.message(item.extra + "");
-}, 3);
