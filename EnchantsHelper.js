@@ -39,6 +39,18 @@ const Enchants = {
 			}
 		});
 	},
+		onNaked: function(enchant, func, level) {
+		Callback.addCallback("ServerPlayerTick", function(player) {
+			for (let y = 0; y < 4; y++) {
+				let item = Entity.getArmorSlot(player, y);
+				if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 1)) {
+					let enchantLevel = item.extra.getEnchantLevel(enchant);
+					func(item, enchantLevel, player);
+				}
+			}
+		});
+	},
+
 };
 
 let LiveSteal = CustomEnchant.newEnchant("LiveSteal", Translation.translate("LiveSteal"))
