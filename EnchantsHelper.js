@@ -24,6 +24,14 @@ const Enchants = {
 	setCurse: function(enchant){
 		Curses.push(enchant);
 	},
+	isCurse: function(enchant) {
+		    for (var i = 0; i < Curses.length; i++) {
+        if (Curses[i] === enchant) {
+            return true;
+        }
+    }
+    return false;
+	},
 	addBook: function(enchant, level) {
 		for (let i = 1; i <= level; i++) {
 			let extra = new ItemExtraData();
