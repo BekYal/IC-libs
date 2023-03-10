@@ -45,6 +45,9 @@ var MASK = {
 
 let Curses = [28, 27];
 const Enchants = {
+	getCurses: function (){
+		return Curses;
+	},
 	setCurse: function(enchant) {
 		Curses.push(enchant);
 	},
