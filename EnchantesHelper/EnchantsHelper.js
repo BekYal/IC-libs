@@ -1,8 +1,8 @@
 LIBRARY({
-    name: "EnchantsHelper",
-    version: 1,
-    shared: true,
-    api: "CoreEngine"
+	name: "EnchantsHelper",
+	version: 1,
+	shared: true,
+	api: "CoreEngine"
 });
 
 IDRegistry.genItemId("enchanBook");
@@ -46,11 +46,9 @@ const Enchants = {
 		return false;
 	},
 	addBook: function(enchant, level) {
-		for (let i = 1; i <= level; i++) {
-			let extra = new ItemExtraData();
-			extra.addEnchant(enchant, i);
-			Item.addToCreative(ItemID.enchanBook, 1, 0, extra);
-		}
+		let extra = new ItemExtraData();
+		extra.addEnchant(enchant, level);
+		Item.addToCreative(ItemID.enchanBook, 1, 0, extra);
 	},
 	hurt: function(enchant, func, level) {
 		Callback.addCallback('EntityHurt', function(attacker, victim, damageValue, damageType, someBool1, someBool2) {
@@ -123,10 +121,8 @@ const Enchants = {
 			}
 		});
 	}
-};	
+};
 
 EXPORT("Enchants", Enchants);
 EXPORT("MASK", MASK);
 EXPORT("Cursee", Curses);
-
-
