@@ -31,4 +31,4 @@ hurt(enchant, function(item, enchantLevel, attacker, victim, damageValue, damage
 ++ следуюшие данные - все передоваемы данные в калбэке EntityHurt
 + level - уроень зачарования
 ```
-
+# finish this later
