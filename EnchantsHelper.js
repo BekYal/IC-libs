@@ -6,7 +6,7 @@ LIBRARY({
 });
 
 IDRegistry.genItemId("enchanBook");
-Item.createItem("enchanBook", "enchantment book", { name: "book_enchanted" }, { stack: 64 });
+Item.createItem("enchanBook", "enchantment book", { name: "book_enchanted" }, { stack: 1 });
 Item.getItemByID(ItemID.enchanBook).setEnchantType(MASK.ALL);
 var MASK = {
 	AXE: 512,
