@@ -1,6 +1,13 @@
+LIBRARY({
+    name: "EnchantsHelper",
+    version: 1,
+    shared: true,
+    api: "CoreEngine"
+});
+
 IDRegistry.genItemId("enchanBook");
 Item.createItem("enchanBook", "enchantment book", { name: "book_enchanted" }, { stack: 64 });
-
+Item.getItemByID(ItemID.enchanBook).setEnchantType(MASK.ALL);
 var MASK = {
 	AXE: 512,
 	ALL: 16383,
@@ -22,6 +29,7 @@ var MASK = {
 };
 
 let Curses = [28, 27];
+
 const Enchants = {
 	getCurses: function() {
 		return Curses;
@@ -116,3 +124,9 @@ const Enchants = {
 		});
 	}
 };	
+
+EXPORT("Enchants", Enchants);
+EXPORT("MASK", MASK);
+EXPORT("Cursee", Curses);
+
+
