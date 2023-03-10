@@ -1,3 +1,28 @@
+/*Array.prototype.equals = function(array) {
+	if (!array)
+		return false;
+	if (array === this)
+		return true;
+	if (this.length != array.length)
+		return false;
+
+	for (var i = 0, l = this.length; i < l; i++) {
+		if (this[i] instanceof Array && array[i] instanceof Array) {
+			if (!this[i].equals(array[i]))
+				return false;
+		}
+		else if (this[i] != array[i]) {
+			return false;
+		}
+	}
+	return true;
+}
+Object.defineProperty(Array.prototype, "equals", { enumerable: false })
+*/
+
+IDRegistry.genItemId("enchanBook");
+Item.createItem("enchanBook", "enchantment book", { name: "enchantment_book" }, { stack: 64 });
+
 var MASK = {
 	AXE: 512,
 	ALL: 16383,
@@ -18,19 +43,18 @@ var MASK = {
 	WEAPONS: 32 | 16 | 512
 };
 
-let Curses = [];
-
+let Curses = [28, 27];
 const Enchants = {
-	setCurse: function(enchant){
+	setCurse: function(enchant) {
 		Curses.push(enchant);
 	},
 	isCurse: function(enchant) {
-		    for (var i = 0; i < Curses.length; i++) {
-        if (Curses[i] === enchant) {
-            return true;
-        }
-    }
-    return false;
+		for (var i = 0; i < Curses.length; i++) {
+			if (Curses[i] === enchant) {
+				return true;
+			}
+		}
+		return false;
 	},
 	addBook: function(enchant, level) {
 		for (let i = 1; i <= level; i++) {
@@ -46,6 +70,18 @@ const Enchants = {
 				let enchantLevel = item.extra.getEnchantLevel(enchant);
 				func(item, enchantLevel, attacker, victim, damageValue, damageType);
 			}
+		});
+	},
+	hurtOwner: function(enchant, func, level) {
+		Callback.addCallback('EntityHurt', function(attacker, victim, damageValue, damageType, someBool1, someBool2) {
+			for (let y = 0; y < 4; y++) {
+				let item = Entity.getArmorSlot(player, y);
+				if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 3)) {
+					let enchantLevel = item.extra.getEnchantLevel(enchant);
+			func(item, enchantLevel, attacker, victim, damageValue, damageType);
+				}
+			}
+
 		});
 	},
 	destroyBlock: function(enchant, func, level) {
@@ -88,7 +124,7 @@ const Enchants = {
 			}
 		});
 	},
-	preventDaamage: function(enchant, level){
+	preventDaamage: function(enchant, level) {
 		Callback.addCallback('EntityHurt', function(attacker, victim, damageValue, damageType, someBool1, someBool2) {
 			for (let y = 0; y < 4; y++) {
 				let item = Entity.getArmorSlot(player, y);
@@ -100,4 +136,11 @@ const Enchants = {
 	}
 };
 
-
+// Array.prototype.findElement = function(element) {
+// 		for (var i = 0; i < this.length; i++) {
+// 			if (this[i] === element) {
+// 				return true;
+// 			}
+// 		}
+// 		return false;
+// };
