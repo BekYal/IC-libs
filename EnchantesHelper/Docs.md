@@ -28,8 +28,8 @@ hurt(enchant, function(item, enchantLevel, attacker, victim, damageValue, damage
 ```
 + enchant - ID зачарования
 + function - калбэк функция передаюшая :
-++ item - предмет с указаннм зачарованием
-++ enchantLevel - уровень зачарования
-++ следуюшие данные - все передоваемы данные в калбэке EntityHurt
+   + item - предмет с указаннм зачарованием
+   + enchantLevel - уровень зачарования
+   + следуюшие данные - все передоваемы данные в калбэке EntityHurt
 + level - уроень зачарования
 # finish this later
