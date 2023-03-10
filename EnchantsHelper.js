@@ -1,27 +1,5 @@
-/*Array.prototype.equals = function(array) {
-	if (!array)
-		return false;
-	if (array === this)
-		return true;
-	if (this.length != array.length)
-		return false;
-
-	for (var i = 0, l = this.length; i < l; i++) {
-		if (this[i] instanceof Array && array[i] instanceof Array) {
-			if (!this[i].equals(array[i]))
-				return false;
-		}
-		else if (this[i] != array[i]) {
-			return false;
-		}
-	}
-	return true;
-}
-Object.defineProperty(Array.prototype, "equals", { enumerable: false })
-*/
-
 IDRegistry.genItemId("enchanBook");
-Item.createItem("enchanBook", "enchantment book", { name: "enchantment_book" }, { stack: 64 });
+Item.createItem("enchanBook", "enchantment book", { name: "book_enchanted" }, { stack: 64 });
 
 var MASK = {
 	AXE: 512,
@@ -45,7 +23,7 @@ var MASK = {
 
 let Curses = [28, 27];
 const Enchants = {
-	getCurses: function (){
+	getCurses: function() {
 		return Curses;
 	},
 	setCurse: function(enchant) {
@@ -81,7 +59,7 @@ const Enchants = {
 				let item = Entity.getArmorSlot(player, y);
 				if (item.extra && item.extra.getEnchantLevel(enchant) == (level || 3)) {
 					let enchantLevel = item.extra.getEnchantLevel(enchant);
-			func(item, enchantLevel, attacker, victim, damageValue, damageType);
+					func(item, enchantLevel, attacker, victim, damageValue, damageType);
 				}
 			}
 
@@ -137,13 +115,4 @@ const Enchants = {
 			}
 		});
 	}
-};
-
-// Array.prototype.findElement = function(element) {
-// 		for (var i = 0; i < this.length; i++) {
-// 			if (this[i] === element) {
-// 				return true;
-// 			}
-// 		}
-// 		return false;
-// };
+};	

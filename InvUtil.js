@@ -42,15 +42,13 @@ var invUtil = {
 		}
 	},
 
-	hasItem: function(id, data, extra) {
-		for (let y = 0; y <= 40; y++) {
+	hasItem: function(slot) {
 			let actor = new PlayerActor(Player.get());
 			let item = actor.getInventorySlot(y);
-			if (item.id == id && item.data == data && item.extra && item.extra == extra) {
+			if (item.id && item.data ) {
 				return true;
 			} else {
 				return false;
-			}
 		}
 	},
 	//хз робит ли
