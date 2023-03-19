@@ -44,7 +44,7 @@ var EnchantState = {
 			for (let y = 0; y <= 40; y++) {
 				let actor = new PlayerActor(player);
 				let item = actor.getInventorySlot(y);
-				if (item.extra && item.extra.getEnchantLevel(enchant) == (level || !0)) {
+				if (item.extra && item.extra.getEnchantLevel(enchant) != 0 ) {
 					return true;
 				} else { return false }
 			}
@@ -54,7 +54,7 @@ var EnchantState = {
 		Callback.addCallback("ServerPlayerTick", function(player) {
 			for (let y = 0; y < 4; y++) {
 				let item = Entity.getArmorSlot(player, y);
-				if (item.extra && item.extra.getEnchantLevel(enchant) == (level || !0)) {
+				if (item.extra && item.extra.getEnchantLevel(enchant) != 0 ) {
 					return true
 				} else { return false }
 			}
@@ -94,7 +94,7 @@ var Enchants = {
 	hurt: function(enchant, func) {
 		Callback.addCallback('EntityHurt', function(attacker, victim, damageValue, damageType, someBool1, someBool2) {
 			let item = Entity.getCarriedItem(attacker);
-			if (item.extra && item.extra.getEnchantLevel(enchant) == (level || !0) && damageType == 2) {
+			if (item.extra && item.extra.getEnchantLevel(enchant) != 0  && damageType == 2) {
 				let enchantLevel = item.extra.getEnchantLevel(enchant);
 				func(item, enchantLevel, attacker, victim, damageValue, damageType);
 			}
@@ -104,7 +104,7 @@ var Enchants = {
 		Callback.addCallback('EntityHurt', function(attacker, victim, damageValue, damageType, someBool1, someBool2) {
 			for (let y = 0; y < 4; y++) {
 				let item = Entity.getArmorSlot(player, y);
-				if (item.extra && item.extra.getEnchantLevel(enchant) == (level || !0)) {
+				if (item.extra && item.extra.getEnchantLevel(enchant) != 0 ) {
 					let enchantLevel = item.extra.getEnchantLevel(enchant);
 					func(item, enchantLevel, attacker, victim, damageValue, damageType);
 				}
@@ -114,7 +114,7 @@ var Enchants = {
 	destroyBlock: function(enchant, func) {
 		Callback.addCallback('DestroyBlock', function(coords, block, player) {
 			let item = Entity.getCarriedItem(player);
-			if (item.extra && item.extra.getEnchantLevel(enchant) == (level || !0)) {
+			if (item.extra && item.extra.getEnchantLevel(enchant) != 0 ) {
 				let enchantLevel = item.extra.getEnchantLevel(enchant);
 				func(item, enchantLevel, coords, block, player);
 			}
@@ -122,7 +122,7 @@ var Enchants = {
 	},
 	useItem: function(enchant, func) {
 		Callback.addCallback("ItemUse", function(coords, item, block, isExternal, player) {
-			if (item.extra && item.extra.getEnchantLevel(enchant) == (level || !0)) {
+			if (item.extra && item.extra.getEnchantLevel(enchant) != 0 ) {
 				let enchantLevel = item.extra.getEnchantLevel(enchant);
 				func(coords, item, block, isExternal, player, enchantLevel);
 			}
@@ -133,7 +133,7 @@ var Enchants = {
 			for (let y = 0; y <= 40; y++) {
 				let actor = new PlayerActor(player);
 				let item = actor.getInventorySlot(y);
-				if (item.extra && item.extra.getEnchantLevel(enchant) == (level || !0)) {
+				if (item.extra && item.extra.getEnchantLevel(enchant) != 0 ){
 					let enchantLevel = item.extra.getEnchantLevel(enchant);
 					func(item, enchantLevel, player);
 				}
