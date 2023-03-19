@@ -4,6 +4,10 @@ LIBRARY({
 	shared: true,
 	api: "CoreEngine"
 });
+
+IDRegistry.genItemID("enchanBook");
+Item.createItem("enchanBook", "enchantment book", { name: "book_enchanted" }, { stack: 1 });
+
 var Curses = [28, 27];
 
 var Mask = {
@@ -25,10 +29,6 @@ var Mask = {
 	armor: 0 | 2 | 8 | 4,
 	weapons: 32 | 16 | 512
 };
-
-IDRegistry.genItemID("enchanBook");
-Item.createItem("enchanBook", "enchantment book", { name: "book_enchanted" }, { stack: 1 });
-
 
 var EnchantState = {
 	isCurse: function(enchant) {
@@ -67,9 +67,9 @@ var EnchantState = {
 				return true;
 			} else { return false }
 		});
-	}
+	},
+	
 };
-
 
 var Chance = {
 	executeWithChance: function(chance, code) {
@@ -83,7 +83,6 @@ var Chance = {
 		}
 	}
 };
-
 
 var Enchants = {
 	getCurses: function() {
@@ -159,7 +158,7 @@ var Enchants = {
 			}
 		});
 	},
-	inOffHand: function(enchant) {
+	inOffHand: function(enchant, func) {
 		Callback.addCallback("ServerPlayerTick", function(player) {
 				let item = Entity.getCarriedItem(player);
 				if (item.extra && item.extra.getEnchantLevel(enchant) != 0) {
@@ -167,7 +166,6 @@ var Enchants = {
 					func(item, enchantLevel, player);
 			}
 		});
-
 	}
 };
 
@@ -176,4 +174,4 @@ EXPORT("Enchants", Enchants);
 EXPORT("Mask", Mask);
 EXPORT("EnchantState", EnchantState);
 EXPORT("Curses", Curses);
-EXPORT("Chance", Chance); //tnx gpt (много с шансами ебаться нажо будет, так шо мне не бесполезно) 
+EXPORT("Chance", Chance);
