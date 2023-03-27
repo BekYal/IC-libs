@@ -68,7 +68,6 @@ var EnchantState = {
 			} else { return false }
 		});
 	},
-
 };
 
 var Chance = {
@@ -167,7 +166,9 @@ var Enchants = {
 				}
 			}
 		});
-	},	killEntity: function(enchant, func) {
+		
+	},	
+	killEntity: function(enchant, func) {
 		Callback.addCallback('EntityDeath', function(entity, attacker, damageType) {
 			let item = Entity.getCarriedItem(attacker);
 			if (item.extra && item.extra.getEnchantLevel(enchant) != 0 && damageType == 2) {
