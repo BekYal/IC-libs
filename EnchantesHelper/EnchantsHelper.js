@@ -86,7 +86,12 @@ var Chance = {
 		if (Math.random() < chance) {
 			return true;
 		} else { false }
-	}
+	},
+	getPercentChance: function(chance) {
+		if (Math.random() < chance / 100) {
+			return true;
+		} else { false }
+	},
 };
 
 var Enchants = {
