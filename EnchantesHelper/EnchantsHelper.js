@@ -176,7 +176,17 @@ var Enchants = {
 					func(item, enchantLevel, player);
 			}
 		});
-	}
+	},
+		killEntity: function(enchant, func) {
+		Callback.addCallback('EntityDeath', function (entity, attacker, damageType) {
+			let item = Entity.getCarriedItem(attacker);
+			if (item.extra && item.extra.getEnchantLevel(enchant) != 0  && damageType == 2) {
+				let enchantLevel = item.extra.getEnchantLevel(enchant);
+				func(item, enchantLevel, attacker, entity, damageType);
+			}
+		});
+	},
+
 };
 
 
