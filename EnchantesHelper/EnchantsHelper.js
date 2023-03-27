@@ -27,7 +27,7 @@ var Mask = {
 	weapon: 16,
 	tool: 512 | 64 | 2048 | 128 | 1024,
 	armor: 0 | 2 | 8 | 4,
-	weapons: 32 | 16 | 512
+	weapons: 16 | 512
 };
 
 var EnchantState = {
