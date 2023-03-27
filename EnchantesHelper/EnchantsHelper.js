@@ -81,6 +81,11 @@ var Chance = {
 		if (Math.random() < percent / 100) {
 			code();
 		}
+	},
+	getChance: function(chance) {
+		if (Math.random() < chance) {
+			return true;
+		} else { false }
 	}
 };
 
