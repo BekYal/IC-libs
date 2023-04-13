@@ -32,9 +32,9 @@ Item.setEnchantType('enchanBook', Mask.all, 5);
 Callback.addCallback("ServerPlayerTick", function (player) {
 	if(World.getThreadTime() % 100 == 0){
 	for (let y = 0; y <= 40; y++) {
-	let actor = new PlayerActor(player);
-	let item = actor.getInventorySlot(y);
-	if (item.extra && item.id == ItemID.enchanBook){
+		let actor = new PlayerActor(player),
+			item = actor.getInventorySlot(y);
+		if (item.extra && item.id == ItemID.enchanBook){
 		actor.setInventorySlot(y, 403, item.count, item.data, item.extra);
 	}
 	}}
@@ -43,19 +43,19 @@ var EnchantState = {
 	isCurse: function(enchant) {
 		for (var i = 0; i < Curses.length; i++) {
 			if (Curses[i] == enchant) {
-				return true;
+				return Boolean(true);
 			}
 		}
-		return false;
+		return Boolean(false);
 	},
 	inInv: function(enchant) {
 		Callback.addCallback("ServerPlayerTick", function(player) {
+			let actor = new PlayerActor(player);
 			for (let y = 0; y <= 40; y++) {
-				let actor = new PlayerActor(player);
 				let item = actor.getInventorySlot(y);
 				if (item.extra && item.extra.getEnchantLevel(enchant) != 0 ) {
-					return true;
-				} else { return false }
+					return Boolean(true);
+				} else { return Boolean(false) }
 			}
 		});
 	},
