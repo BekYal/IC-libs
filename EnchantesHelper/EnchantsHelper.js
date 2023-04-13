@@ -28,13 +28,14 @@ var Mask = {
 
 IDRegistry.genItemID("enchanBook");
 Item.createItem("enchanBook", "enchantment book", { name: "book_enchanted" }, { stack: 1 });
-Item.setEnchantType('enchanBook', Mask.all, 5);
+Item.setEnchantType('enchanBook', Mask.all, 10);
+
 Callback.addCallback("ServerPlayerTick", function (player) {
 	if(World.getThreadTime() % 100 == 0){
 	for (let y = 0; y <= 40; y++) {
-		let actor = new PlayerActor(player),
-			item = actor.getInventorySlot(y);
-		if (item.extra && item.id == ItemID.enchanBook){
+	let actor = new PlayerActor(player);
+	let item = actor.getInventorySlot(y);
+	if (item.extra && item.id == ItemID.enchanBook){
 		actor.setInventorySlot(y, 403, item.count, item.data, item.extra);
 	}
 	}}
@@ -43,19 +44,19 @@ var EnchantState = {
 	isCurse: function(enchant) {
 		for (var i = 0; i < Curses.length; i++) {
 			if (Curses[i] == enchant) {
-				return Boolean(true);
+				return true;
 			}
 		}
-		return Boolean(false);
+		return false;
 	},
 	inInv: function(enchant) {
 		Callback.addCallback("ServerPlayerTick", function(player) {
-			let actor = new PlayerActor(player);
 			for (let y = 0; y <= 40; y++) {
+				let actor = new PlayerActor(player);
 				let item = actor.getInventorySlot(y);
 				if (item.extra && item.extra.getEnchantLevel(enchant) != 0 ) {
-					return Boolean(true);
-				} else { return Boolean(false) }
+					return true;
+				} else { return false }
 			}
 		});
 	},
@@ -82,15 +83,16 @@ var Chance = {
 			code();
 		}
 	},
+	getChance: function(chance){
+		let res = false;
+		if (Math.random() < chance) 
+			return !res;
+		else res
+	},
 	getPercentChance: function(chance){
 		if (Math.random() < chance / 100) {
 		return true;
 		} else {false}
-	},
-	getChance: function(chance) {
-		if (Math.random() < chance) {
-			return true;
-		} else { false }
 	}
 };
 
@@ -177,10 +179,22 @@ var Enchants = {
 			}
 		});
 	},
+	randomTick: function(enchant, func){
+		Callback.addCallback("ServerPlayerTick", function (player) {
+			let player = Player.get();
+			let item = Entity.getCarriedItem(player);
+				if (World.getThreadTime() % Math.floor(Math.random() * (100 - 200 + 1) ) == 0 && item.extra && item.extra.getEnchantLevel(enchant) != 0) {
+					let enchantLevel = item.extra.getEnchantLevel(enchant);
+					func(player, item, enchantLevel);
+				}
+		});
+	
+	}
 };
 
 EXPORT("Enchants", Enchants);
 EXPORT("Mask", Mask);
+EXPORT("Masks", Mask);
 EXPORT("EnchantState", EnchantState);
 EXPORT("Curses", Curses);
-EXPORT("Chance", Chance); //tnx gpt (много с шансами ебаться нажо будет, так шо мне не бесполезно) 
+EXPORT("Chance", Chance);
