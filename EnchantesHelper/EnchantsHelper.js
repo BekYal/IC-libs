@@ -235,6 +235,73 @@ var Enchantss = {
 			}
 		});
 	},
+	itemEvent: function(enchant, event, func){
+		switch (event) {
+			case 'click':
+				Callback.addCallback("ItemUse", function(coords, item, block, isExternal, player) {
+					if (item.extra && item.extra.getEnchantLevel(enchant) != 0) {
+						let enchantLevel = item.extra.getEnchantLevel(enchant);
+						func(enchantLevel, item, player, coords, block, isExternal);
+					}
+				});
+			break;
+			case 'useOnDestroy':
+				Callback.addCallback('DestroyBlock', function(coords, block, player) {
+					let item = Entity.getCarriedItem(player);
+					if (item.extra && item.extra.getEnchantLevel(enchant) != 0) {
+						let enchantLevel = item.extra.getEnchantLevel(enchant);
+						func(enchantLevel, item, player, coords, block);
+					}
+				});
+			break;
+			/*case 'destroyItem':
+				
+			break;*/
+			case 'targeting':
+				let activeTarget = false;
+				Callback.addCallback('ItemUseNoTarget', function (item, player) {
+					if (!activeTarget && item.extra && item.extra.getEnchantLevel(enchant) != 0) 
+						activeTarget = true;
+				});
+				Callback.addCallback('ItemUsingReleased', function (item, player) {
+					if (activeTarget && item.extra && item.extra.getEnchantLevel(enchant) != 0) 
+						activeTarget = false;
+				});
+				Callback.addCallback("ServerPlayerTick", function (player) {
+				   	let item = Entity.getCarriedItem(player);
+				   	let enchantLevel = item.extra.getEnchantLevel(enchant);
+				   	if (activeTarget && item.extra && item.extra.getEnchantLevel(enchant) != 0)
+				   		func(item, player);
+				});	
+			break;
+			case 'targetRelease':
+				Callback.addCallback('ItemUsingReleased', function (item, player) {
+					if (item.extra && item.extra.getEnchantLevel(enchant) != 0){ 
+						let enchantLevel = item.extra.getEnchantLevel(enchant);
+						func(enchantLevel, item, player);
+					}
+				});
+				
+			break;
+			case 'targetUse':
+				Callback.addCallback('ItemUseNoTarget', function (item, player) {
+					if (item.extra && item.extra.getEnchantLevel(enchant) != 0){ 
+						let enchantLevel = item.extra.getEnchantLevel(enchant);
+						func(enchantLevel, item, player);
+					}
+				});
+			break;
+			case 'destroyItem':
+				Callback.addCallback("ServerPlayerTick", function (player) {
+					let item = Entity.getCarriedItem(player);
+					if (item.extra && item.extra.getEnchantLevel(enchant) != 0 & item.data >= Item.getmaxDamage(item.id) ) {
+						let enchantLevel = item.extra.getEnchantLevel(enchant);
+						func(enchantLevel, item, player);
+					}
+				});
+			break
+		}
+	}
 }
 
 
