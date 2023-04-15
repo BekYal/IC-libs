@@ -208,6 +208,33 @@ var Enchantss = {
 			}
 		});
 	},
+	tickEvent: function(enchant, event, func, time){
+		Callback.addCallback("ServerPlayerTick", function (player) {
+			if (World.getThreadTime() % (time || 20) == 0) {
+				switch (event){
+					case 'onNaked':
+						for (let y = 0; y < 4; y++) {
+							let item = Entity.getArmorSlot(player, y);
+							if (item.extra && item.extra.getEnchantLevel(enchant) != 0) {
+								let enchantLevel = item.extra.getEnchantLevel(enchant);
+								func(item, enchantLevel, player);
+							}
+						}
+					break;
+					case 'inInv':
+						for (let y = 0; y <= 40; y++) {
+							let actor = new PlayerActor(player), 
+								item = actor.getInventorySlot(y);
+							if (item.extra && item.extra.getEnchantLevel(enchant) != 0) {
+								let enchantLevel = item.extra.getEnchantLevel(enchant);
+								func(item, enchantLevel, player);
+							}
+						}
+					break;
+				}
+			}
+		});
+	},
 }
 
 
