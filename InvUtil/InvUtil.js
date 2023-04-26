@@ -1,19 +1,4 @@
 var invUtil = {
-	chargeItem: function(chargedItem, chargeItem, charge, decrease) {
-		Callback.addCallback("ServerPlayerTick", function(player) {
-			let actor = new PlayerActor(player);
-			for (let y = o, i = 0; i <= 36, y <= 36; y++, i++) {
-				let item = actor.getInventorySlot(i);
-				let it = actor.getInventorySlot(y);
-				if (item.id == chargedItem && it.id == chargeItem && World.getThreadTime() % 2 == 0 && item.data < Item.getMaxDamage(chargedItem)) {
-					actor.setInventorySlot(i, item.id, item.count, item.data - charge, item.extra);
-					actor.setInventorySlot(y, it.id, it.count - decrease || 1, it.data, it.extra);
-					break;
-				}
-			}
-
-		});
-	},
 	getItemCount: function(id, data, extra) {
 		for (let y = 0; y <= 40; y++) {
 			let actor = new PlayerActor(Player.get());
