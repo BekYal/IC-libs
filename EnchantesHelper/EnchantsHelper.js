@@ -67,7 +67,7 @@ var Chance = {
       }
    },
 
-   Enchantss = {
+   Enchants = {
       randomTickEvent: function(enchant, callbackName, func, minRnd, maxRnd) {
          Callback.addCallback("ServerPlayerTick", function(player) {
             let actor = new PlayerActor(player);
@@ -95,33 +95,36 @@ var Chance = {
       },
       tickEvent: function(enchant, event, func, time) {
          Callback.addCallback("ServerPlayerTick", function(player) {
-            let actor = new PlayerActor(player),
+            let actor = new PlayerActor(player), item, enchantLevel;
                if (World.getThreadTime() % (time || 20) == 0) {
                   switch (event) {
+                     case onNkaed:
                      case 'onNaked':
                         for (let y = 0; y < 4; y++) {
-                           let item = Entity.getArmorSlot(player, y);
+                           item = Entity.getArmorSlot(player, y);
                            if (item.extra && item.extra.getEnchantLevel(enchant) != 0) {
-                              let enchantLevel = item.extra.getEnchantLevel(enchant);
+                              enchantLevel = item.extra.getEnchantLevel(enchant);
                               func(item, enchantLevel, player);
                            }
                         }
                         break;
+                     case inInv:
                      case 'inInv':
                         for (let y = 0; y <= 40; y++) {
-                           let item = actor.getInventorySlot(y);
+                           item = actor.getInventorySlot(y);
                            if (item.extra && item.extra.getEnchantLevel(enchant) != 0) {
-                              let enchantLevel = item.extra.getEnchantLevel(enchant);
+                              enchantLevel = item.extra.getEnchantLevel(enchant);
                               func(item, enchantLevel, player);
                            }
                         }
                         break;
+                     case inHand:
                      case 'inHand':
-                        let item = Entity.getCarriedItem(player);
-                           if (item.extra && item.extra.getEnchantLevel(enchant) != 0) {
-                              let enchantLevel = item.extra.getEnchantLevel(enchant);
-                              func(item, enchantLevel, player);
-                           }
+                        item = Entity.getCarriedItem(player);
+                        if (item.extra && item.extra.getEnchantLevel(enchant) != 0) {
+                           enchantLevel = item.extra.getEnchantLevel(enchant);
+                           func(item, enchantLevel, player);
+                        }
                         break;
                   }
                }
@@ -129,6 +132,7 @@ var Chance = {
       },
       itemEvent: function(enchant, event, func) {
          switch (event) {
+            case click:
             case 'click':
                Callback.addCallback("ItemUse", function(coords, item, block, isExternal, player) {
                   if (item.extra && item.extra.getEnchantLevel(enchant) != 0) {
@@ -137,6 +141,7 @@ var Chance = {
                   }
                });
                break;
+            case useOnDestroy:
             case 'useOnDestroy':
                Callback.addCallback('DestroyBlock', function(coords, block, player) {
                   let item = Entity.getCarriedItem(player);
@@ -146,6 +151,7 @@ var Chance = {
                   }
                });
                break;
+            case targeting:
             case 'targeting':
                let activeTarget;
                Callback.addCallback('ItemUseNoTarget', function(item, player) {
@@ -163,6 +169,7 @@ var Chance = {
                      func(item, player);
                });
                break;
+            case targetRelease:
             case 'targetRelease':
                Callback.addCallback('ItemUsingReleased', function(item, player) {
                   if (item.extra && item.extra.getEnchantLevel(enchant) != 0) {
@@ -171,6 +178,7 @@ var Chance = {
                   }
                });
                break;
+            case targetUse:
             case 'targetUse':
                Callback.addCallback('ItemUseNoTarget', function(item, player) {
                   if (item.extra && item.extra.getEnchantLevel(enchant) != 0) {
@@ -179,6 +187,7 @@ var Chance = {
                   }
                });
                break;
+            case destroyItem:
             case 'destroyItem':
                Callback.addCallback("ServerPlayerTick", function(player) {
                   let item = Entity.getCarriedItem(player);
@@ -192,6 +201,7 @@ var Chance = {
       },
       entityEvent: function(enchant, event, func) {
          switch (event) {
+            case entityKill:
             case 'entityKill':
                Callback.addCallback('EntityDeath', function(entity, attacker, damageType) {
                   let item = Entity.getCarriedItem(attacker);
@@ -201,6 +211,7 @@ var Chance = {
                   }
                });
                break;
+            case itemEquipedDeath:
             case 'itemEquipedDeath':
                Callback.addCallback('EntityDeath', function(entity, attacker, damageType) {
                   let i = 0;
@@ -214,8 +225,15 @@ var Chance = {
                break;
          }
       }
-   };
+   }/*,
 
+   EnchantState = {
+      InventoryEvent() {
+         switch (event) {
+         }
+      },
+
+   };*/
 
 
 EXPORT("Enchants", Enchants);
