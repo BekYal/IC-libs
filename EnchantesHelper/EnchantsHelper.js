@@ -197,17 +197,18 @@ var Chance = {
 							func(enchantLevel, item, player);
 						}
 					});
-					break
+					break;
 				case hurt:
 				case 'hurt':
 					Callback.addCallback('EntityHurt', function(victim, attacker, damageValue, damageType) {
 						let item = Entity.getCarriedItem(attacker);
 						if (item.extra && item.extra.getEnchantLevel(enchant) != 0) {
 							let enchantLevel = item.extra.getEnchantLevel(enchant);
-							func(enchantLevel, item, attacker, entity, damageType);
+							func(enchantLevel, item, attacker, victim, damageType);
 						}
 						
-					})
+					});
+					break;
 			}
 		},
 		entityEvent: function(enchant, event, func) {
