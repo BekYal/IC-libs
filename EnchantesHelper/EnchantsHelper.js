@@ -250,6 +250,5 @@ var Chance = {
 EXPORT("Enchants", Enchants);
 EXPORT("Mask", Mask);
 EXPORT("Masks", Mask);
-EXPORT("EnchantState", EnchantState);
 EXPORT("Curses", Curses);
 EXPORT("Chance", Chance);
